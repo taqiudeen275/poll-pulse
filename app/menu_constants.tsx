@@ -34,11 +34,11 @@ export const SIDENAV_ITEMS: SideNavItemGroup[] = [
                 path: '/admin/dashboard/voters',
                 icon: <BsPerson size={20} />,
             },
-            {
-                title: 'Positions',
-                path: '/admin/dashboard/positions',
-                icon: <BsSquare size={20} />,
-            },
+            // {
+            //     title: 'Positions',
+            //     path: '/admin/dashboard/positions',
+            //     icon: <BsSquare size={20} />,
+            // },
             {
                 title: 'Elections',
                 path: '/admin/dashboard/elections',
@@ -54,16 +54,16 @@ export const SIDENAV_ITEMS: SideNavItemGroup[] = [
                 path: '/admin/dashboard/live-election',
                 icon: <BsBroadcast size={20} />,
             },
-            {
-                title: 'Account',
-                path: '/admin/dashboard/account',
-                icon: <BsGear size={20} />,
-            },
-            {
-                title: 'Help',
-                path: '/admin/dashboard/help',
-                icon: <BsQuestionCircle size={20} />,
-            }
+            // {
+            //     title: 'Account',
+            //     path: '/admin/dashboard/account',
+            //     icon: <BsGear size={20} />,
+            // },
+            // // {
+            //     title: 'Help',
+            //     path: '/admin/dashboard/help',
+            //     icon: <BsQuestionCircle size={20} />,
+            // }
         ]
     }
 

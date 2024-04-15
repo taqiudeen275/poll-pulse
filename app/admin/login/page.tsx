@@ -3,10 +3,9 @@ import React, {useState} from "react";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {cn} from "@/utils/cn";
-import pocketBaseClient from "@/utils/pocket-base-client";
-import {Triangle} from "lucide-react";
+    import {Triangle} from "lucide-react";
 import {useRouter} from "next/navigation";
-import {authenticateUser} from "@/utils/auth";
+
 export default function SigninForm() {
 
     const [email, setEmail] = useState('');
@@ -33,7 +32,6 @@ export default function SigninForm() {
                 setIsLoading(false)
             };
             const data = await response.json();
-            console.log(data)
             if (data?.token) {
                 setSuccess('Logged in successfuly')
                 route.push('/admin/dashboard');

@@ -24,10 +24,12 @@ import { Input } from "@/components/ui/input"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[],
-    data: TData[]
+    data: TData[],
+    size?: number,
+    filter?: string,
 }
 
-export function DataTable<TData, TValue>({ data, columns, }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ data, columns, size, filter }: DataTableProps<TData, TValue>) {
 
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -38,7 +40,7 @@ export function DataTable<TData, TValue>({ data, columns, }: DataTableProps<TDat
         initialState: {
             pagination: {
                 "pageIndex": 0,
-                "pageSize": 5
+                "pageSize": size? size : 5
             }
         },
         onColumnFiltersChange: setColumnFilters,
@@ -54,10 +56,10 @@ export function DataTable<TData, TValue>({ data, columns, }: DataTableProps<TDat
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter ..."
-                    value={(table.getColumn("user")?.getFilterValue() as string) ?? ""}
+                placeholder={"Search "}
+                    value={(table.getColumn(filter? filter:"user")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("user")?.setFilterValue(event.target.value)
+                        table.getColumn(filter? filter:"user")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />

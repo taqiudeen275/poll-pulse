@@ -1,6 +1,7 @@
 import { SideBar } from '@/components/sidebar';
 import Header from '@/components/header';
 import PageWrapper from '@/components/pagewrapper';
+import { Toaster } from '@/components/ui/toaster';
 
 export default function DashboardLayout({children,}: {
     children: React.ReactNode
@@ -12,6 +13,7 @@ export default function DashboardLayout({children,}: {
                 <Header />
                 <PageWrapper children={children} />
             </div>
+            <Toaster />
         </>
     )
 }

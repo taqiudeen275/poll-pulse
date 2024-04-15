@@ -2,16 +2,16 @@ import pb from "@/utils/my_pb";
 import { cookies } from 'next/headers';
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
     try {
-        const { email, password } = await request.json();
-        console.log('form:', { email, password })
-        const result = await pb.authenticate(email, password);
-        const {admin, token} = result;
-        admin.token = token;
-        cookies().set('pb_auth', pb.client.authStore.exportToCookie());
+       
+        const cookieStore = cookies()
+        const authCookie = cookieStore.get('pb_auth')
+         pb.client.authStore.loadFromCookie(authCookie?.value as any)
+        const result =  await pb.client.collection('candidates').getFullList();
+       console.log(result)
 
-        return NextResponse.json(admin);
+        return NextResponse.json(result);
     } catch (err: any) {
         return new Response(
             JSON.stringify({ error: err.message || err.toString() }),

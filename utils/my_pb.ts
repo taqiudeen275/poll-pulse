@@ -5,15 +5,16 @@ export const POCKET_BASE_URL = "http://127.0.0.1:8090";
 
 export class DatabaseClient {
     client: PocketBase;
-
+    fileBaseURL: string;
     constructor () {
         this.client = new PocketBase(POCKET_BASE_URL);
+        this.fileBaseURL = `${POCKET_BASE_URL}/api/files/hooimef6b6yqbd5/kyi0r8iz7av3koy/`
     }
 
     async authenticate (email: string, password: string) {
         try {
-            const result = await this.client.collection("users").authWithPassword(email, password);
-            console.log('authenticate result:', result);
+            const result = await this.client.admins.authWithPassword(email, password);
+            // console.log('authenticate result:', result);
             if (!result?.token) {
                 throw new Error("Invalid email or password");
             }

@@ -16,7 +16,7 @@ export default function Header() {
     const sidebarToggle = () => {
         invokeToggleCollapse();
     }
-    const headerStyle = classNames("bg-sidebar fixed w-full z-[99996] px-4 border-b",
+    const headerStyle = classNames("bg-sidebar fixed w-full  px-4 border-b",
         {
             ["sm:pl-[20rem]"]: !toggleCollapse,
             ["sm:pl-[5.6rem]"]: toggleCollapse,
@@ -24,7 +24,7 @@ export default function Header() {
     const handleLogout = async () => {
         try {
             await pb.logoutUser();
-            router.refresh();
+            router.replace('/admin/login');
             console.log(pocketBaseClient.authStore.model)
         } catch (err) {
             console.error('Error logging out:', err);
@@ -33,7 +33,7 @@ export default function Header() {
     return (
         <header className={headerStyle}>
             <div className="h-16 flex items-center justify-between">
-                <button onClick={sidebarToggle} className="order-2 sm:order-1 shrink-btn float-right bg-sidebar-muted text-sidebar-muted-foreground hover:bg-foreground hover:text-background ml-3 rounded-md w-[30px] h-[30px] flex items-center justify-center border  transition duration-300 ease-in-out z-[99999]">
+                <button onClick={sidebarToggle} className="order-2 sm:order-1 shrink-btn float-right bg-sidebar-muted text-sidebar-muted-foreground hover:bg-foreground hover:text-background ml-3 rounded-md w-[30px] h-[30px] flex items-center justify-center border  transition duration-300 ease-in-out sm:z-[9]">
                     <BsList />
                 </button>
 
@@ -41,9 +41,7 @@ export default function Header() {
                     <div className="p-2">
                         <ThemeSwitcher></ThemeSwitcher>
                     </div>
-                    <div className="h-10 w-10 rounded-full bg-sidebar-muted flex items-center justify-center text-center">
-                        <UserNav />
-                    </div>
+                   
                 <Button variant="ghost" className="mx-1" onClick={handleLogout}><LogOut/></Button>
                 </div>
             </div>
