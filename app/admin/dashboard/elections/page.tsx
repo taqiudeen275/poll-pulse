@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { createElectionPermit, getElections, getVoters, getVotersPermit, updateElection } from "./action";
+import { createElectionPermit, createVoterUser, getElections, getVoters, getVotersPermit, updateElection } from "./action";
 import { RecordModel } from "pocketbase";
 import { Button } from "@/components/ui/button";
 import { Circle, CircleDot, Triangle } from "lucide-react";
@@ -24,8 +24,9 @@ export default function ElectionPage() {
 
     }, []);
     function generateRandomCode() {
-        const numbers = Math.floor(1000 + Math.random() * 9000);
+        const numbers = Math.floor(10000  + Math.random() * 9000);
         const letters = String.fromCharCode(
+            65 + Math.floor(Math.random() * 26),
             65 + Math.floor(Math.random() * 26),
             65 + Math.floor(Math.random() * 26)
         );
@@ -40,7 +41,7 @@ export default function ElectionPage() {
                 formattedList.push({
                     name: voter.full_name,
                     email: voter.email,
-                    permit: votersPermit.election_permit_code
+                    permit: votersPermit.election_permit_code,
                 });
             }
         }
@@ -58,9 +59,16 @@ export default function ElectionPage() {
                 createElectionPermit({
                     voter: voter.id,
                     election: election.id,
-                    election_permit_code: code,
+                    election_permit_code: code, 
                     expired_at: election.end_at,
                     voted: false,
+                })
+                createVoterUser({
+                    username: voter.student_id,
+                    password: code,
+                    passwordConfirm: code,
+                    verified: true,
+
                 })
 
             }
@@ -115,7 +123,7 @@ export default function ElectionPage() {
                         </div>
                     </div>
                 ))}
-                {elections.filter(election => election.archive === false) && <div className="flex justify-center my-4">No upcoming Election at the moment</div>}
+                {elections.filter(election => election.archive === false).length === 0 && <div className="flex justify-center my-4">No upcoming Election at the moment</div>}
             </div>
             <div>
                 <h1 className="text-xl">Finished Elections</h1>

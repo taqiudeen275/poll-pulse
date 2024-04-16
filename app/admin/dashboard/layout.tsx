@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import { SideBar } from '@/components/sidebar';
 import Header from '@/components/header';
 import PageWrapper from '@/components/pagewrapper';

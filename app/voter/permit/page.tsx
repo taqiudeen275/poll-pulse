@@ -23,7 +23,7 @@ export default function SigninForm() {
 
         try {
             const form = {email, password};
-            const response = await fetch('/api/admin/login', {
+            const response = await fetch('/api/voters', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(form)
@@ -33,9 +33,10 @@ export default function SigninForm() {
                 setIsLoading(false)
             };
             const data = await response.json();
+            console.log(data);
             if (data?.token) {
                 setSuccess('Logged in successfuly')
-                route.push('/admin/dashboard');
+                route.push(`/voter/${data.id}/vote`);
                 setIsLoading(false)
             } else {
                 setError('Failed to authenticate user');
@@ -54,17 +55,17 @@ export default function SigninForm() {
                     Welcome to Poll <span className="text-blue-700"> Pulse</span>
                 </h2>
                 <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-                    Login to poll-pulse if you are an administrator
+                    Enter your Student ID and voter permit code to start casting your votes
                 </p>
-
+               
                 <form className="my-8" onSubmit={handleSubmit}>
 
                     <LabelInputContainer className="mb-4">
-                        <Label htmlFor="email">Email Address / Username</Label>
-                        <Input id="email" placeholder="username" type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <Label htmlFor="email">Student ID</Label>
+                        <Input id="email" placeholder="username" type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </LabelInputContainer>
                     <LabelInputContainer className="mb-4">
-                        <Label htmlFor="password ">Password</Label>
+                        <Label htmlFor="password ">Voters Permit Code</Label>
                         <Input id="password" placeholder="••••••••" type="password"   value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </LabelInputContainer>
                     <LabelInputContainer className="my-4">
@@ -75,8 +76,8 @@ export default function SigninForm() {
                     <button
                         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
                         type="submit"
-                    >
-                        {isloading? <span className="flex align-center justify-center animate-spin"> <Triangle className="" /> </span> :  <span>Sign in &rarr;</span>}
+                    >   
+                        {isloading? <span className="flex align-center justify-center animate-spin"> <Triangle className="" /> </span> :  <span>Verify</span>}
                         <BottomGradient />
                     </button>
 

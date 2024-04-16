@@ -50,7 +50,7 @@ export async function getVotes(){
     const authCookie = cookieStore.get('pb_auth')
     pb.client.authStore.loadFromCookie(authCookie?.value as any)
     const election = await pb.client.collection('elections').getFirstListItem('archive=false')
-    const res = await pb.client.collection('ballots').getFullList({filte: `elections = ${election.id}`})
+    const res = await pb.client.collection('ballots').getFullList({filter: `elections = ${election.id}`})
     return res
    } catch (error) {
     console.log(error)

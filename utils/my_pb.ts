@@ -8,7 +8,7 @@ export class DatabaseClient {
     fileBaseURL: string;
     constructor () {
         this.client = new PocketBase(POCKET_BASE_URL);
-        this.fileBaseURL = `${POCKET_BASE_URL}/api/files/hooimef6b6yqbd5/kyi0r8iz7av3koy/`
+        this.fileBaseURL = `${POCKET_BASE_URL}/api/files/hooimef6b6yqbd5/`
     }
 
     async authenticate (email: string, password: string) {
@@ -25,6 +25,19 @@ export class DatabaseClient {
         }
     }
 
+    async authenticatevoter (email: string, password: string) {
+        try {
+            const result = await this.client.collection('voter_user').authWithPassword(email, password);
+            // console.log('authenticate result:', result);
+            if (!result?.token) {
+                throw new Error("Invalid email or password");
+            }
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw new Error("Invalid email or password");
+        }
+    }
 
     async isAuthenticated(cookieStore: ReadonlyRequestCookies) {
         const cookie = cookieStore.get('pb_auth');
@@ -34,6 +47,25 @@ export class DatabaseClient {
 
         this.client.authStore.loadFromCookie(cookie?.value || '');
         return this.client.authStore.isValid || false
+    }
+    async isVoterAuthenticated(cookieStore: ReadonlyRequestCookies) {
+        const cookie = cookieStore.get('vpb_auth');
+        if (!cookie) {
+            return false;
+        }
+
+        this.client.authStore.loadFromCookie(cookie?.value || '');
+        return this.client.authStore.isValid || false
+    }
+
+    async getVoterUser(cookieStore: ReadonlyRequestCookies) {
+        const cookie = cookieStore.get('vpb_auth');
+        if (!cookie) {
+            return false;
+        }
+
+        this.client.authStore.loadFromCookie(cookie?.value || '');
+        return this.client.authStore.model ;
     }
 
     async getUser(cookieStore: ReadonlyRequestCookies) {

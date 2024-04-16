@@ -7,7 +7,7 @@ const nextConfig = {
             protocol: 'http',
             hostname: '127.0.0.1',
             port: '8090',
-            pathname: '/api/files/hooimef6b6yqbd5/kyi0r8iz7av3koy/**',
+            pathname: '/api/files/hooimef6b6yqbd5/**',
           },
         ],
       },

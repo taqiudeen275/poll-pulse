@@ -37,7 +37,7 @@ export default function LiveElectionPage() {
 
             setVoters(result);
             setCandidate(cresult);
-            const electionqs = eresult.find(election => election.archive === false);   
+            const electionqs = eresult.find(election => election.isongoing === true);   
             setElection(electionqs);
         }
         fetchInitialData();

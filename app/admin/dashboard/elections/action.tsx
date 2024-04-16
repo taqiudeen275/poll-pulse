@@ -71,4 +71,16 @@ export async function createElectionPermit(data:any){
     }
  }
  
- 
+ export async function createVoterUser(data:any){
+   try {
+    const cookieStore = cookies()
+    const authCookie = cookieStore.get('pb_auth')
+    pb.client.authStore.loadFromCookie(authCookie?.value as any)
+    const res = await pb.client.collection('voter_user').create(data)
+    return res
+   } catch (error) {
+    console.log('error',error)
+    return []
+   }
+}
+
