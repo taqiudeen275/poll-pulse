@@ -5,12 +5,13 @@ interface PermitProp {
     email: string;
     name: string;
     permit: string;
+    phone_number: string;
 }
 
 export async function POST(request: Request){
 try {
-    const {permit} = await request.json();
-const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
+    const {permits} = await request.json();
+const { SMTP_EMAIL, SMTP_PASSWORD, SITE_URL, SMS_API_KEY } = process.env;
 
 const transport = nodemailer.createTransport({
   service: "gmail",
@@ -31,7 +32,7 @@ try {
     return;
   }
 
-  permit.forEach(async (permit: PermitProp) => {
+  for (const permit of permits) {
     await transport.sendMail({
         from: SMTP_EMAIL,
         to: permit.email,
@@ -39,10 +40,20 @@ try {
         html: `
         <h3>Hello ${permit.name}</h3>
         <p>Your Vote Permit Code is <h3>${permit.permit}</h3></p>
-        <p>Use this code to vote, it is valid for 24hours</p>
+        <p>Use this code to vote, it is valid for 24hours </p>
+        <a href="${SITE_URL}/voter/permit">Click here to vote </a>
         `,
       });
-  })
+      const message =  `
+      Hello ${permit.name}
+      Your Vote Permit Code is ${permit.permit}
+      Use this code to vote, it is valid for 24hours
+      Click here to vote 
+      ${SITE_URL}/voter/permit
+     
+      `
+     await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${SMS_API_KEY}&to=${permit.phone_number}&from=SenderID&sms=${message}`)
+  }
   return NextResponse.json({message: "Voters Permit sent successfully"}, {status:200})
 } catch (error) {
     console.log(error)

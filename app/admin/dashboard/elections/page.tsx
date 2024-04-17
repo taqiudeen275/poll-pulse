@@ -41,6 +41,7 @@ export default function ElectionPage() {
                 formattedList.push({
                     name: voter.full_name,
                     email: voter.email,
+                    phone_number: voter.phone_number,
                     permit: votersPermit.election_permit_code,
                 });
             }
@@ -53,7 +54,7 @@ export default function ElectionPage() {
         setIsLoading(true)
         const voters = await getVoters()
         const election = elections.find(election => election.archive === false)
-        voters.forEach(voter => {
+        for (const voter of voters) {
             if (election) {
                 const code = generateRandomCode()
                 createElectionPermit({
@@ -72,7 +73,7 @@ export default function ElectionPage() {
                 })
 
             }
-        });
+        };
 
         const voters_permit = await getVotersPermit()
 

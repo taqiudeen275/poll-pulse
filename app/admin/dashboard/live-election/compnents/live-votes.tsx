@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PocketBase from 'pocketbase';
 import pb from '@/utils/my_pb';
 import { useCookies } from 'next-client-cookies';
-import { getPosition, getVoters, getVotes } from '../action';
+import { getPosition, getVoters, getVotes, getElections } from '../action';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 
@@ -27,10 +27,10 @@ const VoteCounter: React.FC = () => {
 
     // Fetch initial vote count
     const fetchVoteCount = async () => {
-        
-        const authCookie = cookies.get('pb_auth')
-        pb.client.authStore.loadFromCookie(authCookie as any)
-      const totalVotes = await getVotes()
+      const election = await getElections()
+      const authCookie = cookies.get('pb_auth')
+      pb.client.authStore.loadFromCookie(authCookie as any)
+      const totalVotes = await getVotes(election.find(e => e.archive === false)!.id)
       const positions = await getPosition()
       const voters = await getVoters()
     setTotalVoteCount(voters.length * positions.length)

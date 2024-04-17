@@ -84,7 +84,7 @@ export default function Page({ params }: { params: { id: string } }) {
                      <TableBody>
                         {getResultsForPosition(position.id).map(candidate =>(
                             <TableRow key={candidate.id}>
-                             <TableCell><Image src={`${pb.fileBaseURL}${getCandidatesById(candidate.candidate) && getCandidatesById(candidate.candidate)!.photo}`} alt={""} width={50} height={80} /> </TableCell>
+                             <TableCell><Image src={`${pb.fileBaseURL}${getCandidatesById(candidate.candidate)!.id}/${getCandidatesById(candidate.candidate)!.photo}`} alt={""} width={50} height={80} /> </TableCell>
                              <TableCell>{getCandidatesById(candidate.candidate) && getCandidatesById(candidate.candidate)!.full_name}</TableCell>
                              <TableCell>{candidate.ballot.length}</TableCell>
                              <TableCell>{(candidate.ballot.length / getBallotsForPosition(position.id).length) * 100}%</TableCell>

@@ -44,13 +44,13 @@ export async function getVotersPermit(){
    }
 }
 
-export async function getVotes(){
+export async function getVotes(electionID: string){
    try {
     const cookieStore = cookies()
     const authCookie = cookieStore.get('pb_auth')
     pb.client.authStore.loadFromCookie(authCookie?.value as any)
-    const election = await pb.client.collection('elections').getFirstListItem('archive=false')
-    const res = await pb.client.collection('ballots').getFullList({filter: `elections = ${election.id}`})
+    const election = await pb.client.collection('elections').getOne(electionID)
+    const res = await pb.client.collection('ballots').getFullList({filter: `election="${election.id}"`})
     return res
    } catch (error) {
     console.log(error)
@@ -95,4 +95,20 @@ export async function updateElection(id: string, data: any) {
     return []
    }
 }
+
+
+export async function createCandidatesResults(data: any) {
+   try {
+    const cookieStore = cookies()
+    const authCookie = cookieStore.get('pb_auth')
+    pb.client.authStore.loadFromCookie(authCookie?.value as any)
+    const res = await pb.client.collection('candidates_votes').create(data)
+    return res
+   } catch (error) {
+    console.log(error)
+    return []
+   }
+}
+
+
 

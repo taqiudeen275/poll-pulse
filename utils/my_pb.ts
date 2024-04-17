@@ -58,12 +58,8 @@ export class DatabaseClient {
         return this.client.authStore.isValid || false
     }
 
-    async getVoterUser(cookieStore: ReadonlyRequestCookies) {
+    async getVoterUser(cookieStore: any) {
         const cookie = cookieStore.get('vpb_auth');
-        if (!cookie) {
-            return false;
-        }
-
         this.client.authStore.loadFromCookie(cookie?.value || '');
         return this.client.authStore.model ;
     }

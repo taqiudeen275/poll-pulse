@@ -13,7 +13,7 @@ export async function sendMail({
   subject: string;
   body: string;
 }) {
-  const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
+  const { SMTP_EMAIL, SMTP_PASSWORD,  } = process.env;
 
   const transport = nodemailer.createTransport({
     service: "gmail",

@@ -26,11 +26,11 @@ const words2 = [
   { text: "voice",  className: "text-sm" },
   { text: "holds",  className: "text-sm" },
   { text: "the",  className: "text-sm" },
-  { text: "power",  className: "text-3xl text-blue-500 dark:text-blue-500" },
+  { text: "power",  className: "text-sm text-blue-500 dark:text-blue-500" },
   { text: "to",  className: "text-sm ext-blue-500 dark:text-blue-500" },
   { text: "shape",  className: "text-sm" },
   { text: "our", className: "text-sm ext-blue-500 dark:text-blue-500" },
-  { text: "future;" , className: "text-3xl text-blue-500 dark:text-blue-500"},
+  { text: "future;" , className: "text-sm text-blue-500 dark:text-blue-500"},
   { text: "make", className: "text-sm " },
   { text: "it", className: "text-sm " },
   { text: "count", className: "text-sm " },
@@ -39,10 +39,10 @@ const words2 = [
   { text: "your", className: "text-sm " },
   { text: "right", className: "text-sm " },
   { text: "to", className: "text-sm" },
-  { text: "vote.", className: "text-3xl text-blue-500 dark:text-blue-500" }
+  { text: "vote.", className: "text-sm text-blue-500 dark:text-blue-500" }
 ];
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-14">
       <div className="absolute top-7 right-7">
         <ModeToggle />
       </div>
