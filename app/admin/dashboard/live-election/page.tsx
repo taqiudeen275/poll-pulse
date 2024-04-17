@@ -1,6 +1,6 @@
 'use client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { CircleDot } from 'lucide-react'
+import { CircleDot, Triangle } from 'lucide-react'
 import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react'
 import { createCandidatesResults, getCandidates, getElections, getVoters, getVotes, updateElection } from './action';
@@ -26,6 +26,7 @@ export default function LiveElectionPage() {
     const [voters, setVoters] = useState<RecordModel[]>([]);
     const [candidates, setCandidate] = useState<RecordModel[]>([]);
     const [election, setElection] = useState<RecordModel>();
+    const [isloading, setIsloading] = useState(false);
     const route = useRouter();
 
     useEffect(() => {
@@ -50,6 +51,7 @@ export default function LiveElectionPage() {
     }
 
     async function handleEndElection() {
+        setIsloading(true)
         const candidates = await getCandidates();
       
         for (const candidate of candidates) { // Use for loop for clarity
@@ -64,6 +66,7 @@ export default function LiveElectionPage() {
         }
       
         await updateElection(election!.id, { archive: true, isongoing: false });
+        setIsloading(false)
         route.push(`/admin/dashboard/elections/${election!.id}`);
       }
 
@@ -160,7 +163,9 @@ export default function LiveElectionPage() {
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
-
+                {isloading &&  <div className='w-screen h-screen flex items-center justify-center z-10 absolute top-0 left-0 right-0'>
+            <span className="flex align-center justify-center animate-spin"> <Triangle className="" /> </span>
+        </div>}
             </>)}
             {!election && <div className="w-full h-full flex justify-center items-center    ">
                 No ongoing election at the moment

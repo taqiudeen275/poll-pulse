@@ -9,6 +9,12 @@ const nextConfig = {
             port: '8090',
             pathname: '/api/files/hooimef6b6yqbd5/**',
           },
+          {
+            protocol: 'https',
+            hostname: 'poll-pulse.pockethost.io',
+            port: '',
+            pathname: '/api/files/hooimef6b6yqbd5/**',
+          },
         ],
       },
 };
