@@ -6,9 +6,11 @@ const { POCKET_BASE_URL } = process.env;
 export class DatabaseClient {
     client: PocketBase;
     fileBaseURL: string;
+    baseURL: string;
     constructor () {
         this.client = new PocketBase(POCKET_BASE_URL);
         this.fileBaseURL = `${POCKET_BASE_URL}/api/files/hooimef6b6yqbd5/`
+        this.baseURL = `${POCKET_BASE_URL}`
     }
 
     async authenticate (email: string, password: string) {

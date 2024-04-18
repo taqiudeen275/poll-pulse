@@ -4,7 +4,6 @@ import { CircleDot, Triangle } from 'lucide-react'
 import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react'
 import { createCandidatesResults, getCandidates, getElections, getVoters, getVotes, updateElection } from './action';
-import pb from '@/utils/my_pb';
 import { Button } from '@/components/ui/button';
 import Countdown from './compnents/countdown';
 import {
