@@ -26,7 +26,7 @@ export async function middleware(req: NextRequest) {
         return;
     }
     if (!publicRoutes.includes(pathname)) {
-        if (!isLoggedIn || !isVoterLoggedIn) {
+        if (!isLoggedIn && !isVoterLoggedIn) {
             const url = req.nextUrl.clone()
             url.pathname = '/';
             return NextResponse.redirect(url);

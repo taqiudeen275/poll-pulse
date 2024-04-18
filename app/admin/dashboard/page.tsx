@@ -8,6 +8,7 @@ import { getVoters } from './voters/action';
 import { getCandidates, getElections } from './live-election/action';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+const { POCKET_BASE_URL } = process.env;
 
 export default function Home() {
     const [voters, setVoters] = useState<RecordModel[]>([]);
@@ -103,6 +104,10 @@ export default function Home() {
                     </Button>
                     <Button>
                         <Link href={'dashboard/voters'} className="lg:col-span-4">View voters
+                        </Link>
+                    </Button>
+                    <Button>
+                        <Link href={POCKET_BASE_URL+"/_/"} className="lg:col-span-4">Other Admin Dashboard
                         </Link>
                     </Button>
                 </div>
