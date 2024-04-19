@@ -1,7 +1,7 @@
 import PocketBase from 'pocketbase';
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
-const POCKET_BASE_URL="http://127.0.0.1:8090"
+const POCKET_BASE_URL="https://poll-pulse.pockethost.io"
 export class DatabaseClient {
     client: PocketBase;
     fileBaseURL: string;
