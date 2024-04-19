@@ -24,7 +24,7 @@ export default function VotePage({ params }: { params: { id: string } }){
          <Button variant="ghost" className="mx-1" onClick={handleLogout}><LogOut/> Logout</Button>
 
         </div>
-        <div className="h-screen">
+        <div className="">
 
         <BallotTabs id={params.id} />
         </div>

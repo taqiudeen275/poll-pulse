@@ -1,27 +1,29 @@
 "use client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Overview } from './../../components/overview'
-import { RecentActions } from './../../components/recent-sales'
 import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
 import { getVoters } from './voters/action';
 import { getCandidates, getElections } from './live-election/action';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-const { POCKET_BASE_URL } = process.env;
+import pb from '@/utils/my_pb';
 
 export default function Home() {
     const [voters, setVoters] = useState<RecordModel[]>([]);
     const [candidates, setCandidate] = useState<RecordModel[]>([]);
     const [election, setElection] = useState<RecordModel>();
+    const [pb_link, setPblink] = useState("");
     
     useEffect(() => {
         const fetchInitialData = async () => {
             const result = await getVoters();
             const cresult = await getCandidates();
             const eresult = await getElections()
-
-
+            const { POCKET_BASE_URL } = process.env
+            if (POCKET_BASE_URL){
+                setPblink(pb.baseURL)
+            }
+            
             setVoters(result);
             setCandidate(cresult);
             const electionqs = eresult.find(election => election.archive === false);   
@@ -30,6 +32,7 @@ export default function Home() {
         fetchInitialData();
 
     }, []);
+   
 
     // @ts-ignore
     return (
@@ -92,7 +95,7 @@ export default function Home() {
                 
                 </div>
                 <h1 className='text-2xl mb-2'>Quick Links</h1>
-                <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-7">
+                <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-5">
                     <Button>
                         <Link href={'dashboard/elections'} className="lg:col-span-4">Go to Elections
                         </Link>
@@ -106,10 +109,7 @@ export default function Home() {
                         <Link href={'dashboard/voters'} className="lg:col-span-4">View voters
                         </Link>
                     </Button>
-                    <Button>
-                        <Link href={POCKET_BASE_URL+"/_/"} className="lg:col-span-4">Other Admin Dashboard
-                        </Link>
-                    </Button>
+                   
                 </div>
             </div>
         </>

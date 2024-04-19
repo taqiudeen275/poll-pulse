@@ -1,14 +1,15 @@
 import PocketBase from 'pocketbase';
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
-const { POCKET_BASE_URL } = process.env;
 
-
+const POCKET_BASE_URL="https://poll-pulse.pockethost.io"
 export class DatabaseClient {
     client: PocketBase;
     fileBaseURL: string;
+    baseURL: string;
     constructor () {
         this.client = new PocketBase(POCKET_BASE_URL);
         this.fileBaseURL = `${POCKET_BASE_URL}/api/files/hooimef6b6yqbd5/`
+        this.baseURL = `${POCKET_BASE_URL}`
     }
 
     async authenticate (email: string, password: string) {
