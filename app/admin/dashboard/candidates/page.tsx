@@ -21,7 +21,7 @@ interface  CandidateProb {
     updated: string;
 }
 
-export const candidateColumn: ColumnDef<RecordModel>[]=[
+ const candidateColumn: ColumnDef<RecordModel>[]=[
     {accessorKey: 'full_name', header: 'Full Name'},
     {accessorKey: 'email', header: 'Email'},
     // {accessorKey: 'position', header: 'Position'},
