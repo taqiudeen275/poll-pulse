@@ -10,13 +10,6 @@ import { PlusIcon } from "lucide-react";
 import { getVoters } from "./action";
 
 
-export const votersColumn: ColumnDef<RecordModel>[]=[
-    {accessorKey: 'full_name', header: 'Full Name'},
-    {accessorKey: 'email', header: 'Email'},
-    {accessorKey: 'student_id', header: 'Student Id'},
-    {accessorKey: 'created', header: 'Created At'},
-    {accessorKey: 'updated', header: 'Modified At'},
-]
 
 export default function VoterViewPage(){
     const [voters, setVoters] = useState<RecordModel[]>([]);
@@ -34,7 +27,13 @@ export default function VoterViewPage(){
             <h2 className="text-3xl font-bold tracking-tight my-4">Voters</h2>
            
             </div>
-            <DataTable data={voters} columns={votersColumn} filter="full_name"></DataTable>
+            <DataTable data={voters} columns={[
+    {accessorKey: 'full_name', header: 'Full Name'},
+    {accessorKey: 'email', header: 'Email'},
+    {accessorKey: 'student_id', header: 'Student Id'},
+    {accessorKey: 'created', header: 'Created At'},
+    {accessorKey: 'updated', header: 'Modified At'},
+]} filter="full_name"></DataTable>
         </>
     )
 }
