@@ -11,7 +11,7 @@ interface PermitProp {
 export async function POST(request: Request){
   try {
       const {permit} = await request.json();
-      const { SMTP_EMAIL, SMTP_PASSWORD, SITE_URL, SMS_API_KEY } = process.env;
+      // const { SMTP_EMAIL, SMTP_PASSWORD, SITE_URL, SMS_API_KEY } = process.env;
   
   const transport = nodemailer.createTransport({
     service: "gmail",
@@ -19,8 +19,8 @@ export async function POST(request: Request){
     secure: true,
     port: 587,
     auth: {
-      user: SMTP_EMAIL,
-      pass: SMTP_PASSWORD,
+      user: process.env.SMTP_EMAIL,
+      pass: process.env.SMTP_PASSWORD,
     },
   });
   
@@ -34,14 +34,14 @@ export async function POST(request: Request){
   
     permit.forEach(async (permit: PermitProp) => {
       await transport.sendMail({
-          from: SMTP_EMAIL,
+          from: process.env.SMTP_EMAIL,
           to: permit.email,
           subject: "Vote Permit Code",
           html: `
           <h3>Hello ${permit.name}</h3>
           <p>Your Vote Permit Code is <h3>${permit.permit}</h3></p>
           <p>Use this code to vote, it is valid for 24hours</p>
-          <a href="${SITE_URL}/voter/permit">Click here to vote </a>
+          <a href="${process.env.SITE_URL}/voter/permit">Click here to vote </a>
           `,
         });
         const message =  `
@@ -49,10 +49,10 @@ export async function POST(request: Request){
         Your Vote Permit Code is ${permit.permit}
         Use this code to vote, it is valid for 24hours
         Click here to vote 
-        ${SITE_URL}/voter/permit
+        ${process.env.SITE_URL}/voter/permit
        
         `
-       await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${SMS_API_KEY}&to=${permit.phone_number}&from=POLLPULSE&sms=${message}`)
+       await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${process.env.SMS_API_KEY}&to=${permit.phone_number}&from=POLLPULSE&sms=${message}`)
     })
     return NextResponse.json({message: "Voters Permit sent successfully"}, {status:200})
   } catch (error) {
