@@ -17,23 +17,30 @@ export async function POST(request: Request){
     service: "gmail",
     host: "smtp.gmail.com",
     secure: true,
-    port: 587,
+    port: 465,
     auth: {
       user: process.env.SMTP_EMAIL,
       pass: process.env.SMTP_PASSWORD,
     },
   });
+
+  await new Promise((resolve, reject) => {
+    // verify connection configuration
+    transport.verify(function (error, success) {
+        if (error) {
+            console.log(error);
+            reject(error);
+        } else {
+            console.log("Server is ready to take our messages");
+            resolve(success);
+        }
+    });
+});
   
-  try {
-      const testResult = await transport.verify();
-      console.log(testResult);
-    } catch (error) {
-      console.error({ error });
-      return;
-    }
-  
+
     permit.forEach(async (permit: PermitProp) => {
-      await transport.sendMail({
+      await new Promise((resolve, reject) => {
+      transport.sendMail({
           from: process.env.SMTP_EMAIL,
           to: permit.email,
           subject: "Vote Permit Code",
@@ -44,6 +51,10 @@ export async function POST(request: Request){
           <a href="${process.env.SITE_URL}/voter/permit">Click here to vote </a>
           `,
         });
+        
+      });
+
+      await new Promise((resolve, reject) => {
         const message =  `
         Hello ${permit.name}
         Your Vote Permit Code is ${permit.permit}
@@ -52,8 +63,11 @@ export async function POST(request: Request){
         ${process.env.SITE_URL}/voter/permit
        
         `
-       await fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${process.env.SMS_API_KEY}&to=${permit.phone_number}&from=POLLPULSE&sms=${message}`)
-    })
+
+       fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${process.env.SMS_API_KEY}&to=${permit.phone_number}&from=POLLPULSE&sms=${message}`)
+      });
+
+      })
     return NextResponse.json({message: "Voters Permit sent successfully"}, {status:200})
   } catch (error) {
       console.log(error)
