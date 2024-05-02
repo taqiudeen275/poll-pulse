@@ -12,10 +12,9 @@ export default async function POST(request: Request){
   try {
       const {permit} = await request.json();
  
-
-    permit.forEach(async (permit: PermitProp) => {
-
       await new Promise((resolve, reject) => {
+    permit.forEach(async (permit: PermitProp) => {
+     
         const message =  `
         Hello ${permit.name}
         Your Vote Permit Code is ${permit.permit}
@@ -28,8 +27,10 @@ export default async function POST(request: Request){
        fetch(`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${process.env.SMS_API_KEY}&to=${permit.phone_number}&from=POLLPULSE&sms=${message}`)
       });
 
-      })
-    return NextResponse.json({message: "Voters Permit sent successfully"}, {status:200})
+      }).then(value => NextResponse.json({message: "Voters Permit sent successfully"}, {status:200})).catch(
+        error => NextResponse.json({message: "Error occured"}, {status:500})
+      )
+    
   } catch (error) {
       console.log(error)
     return NextResponse.json({message: "Something went wrong try again"}, {status:500})
