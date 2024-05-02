@@ -30,7 +30,7 @@ export default async function POST(request: Request){
       }).then(value => NextResponse.json({message: "Voters Permit sent successfully"}, {status:200})).catch(
         error => NextResponse.json({message: "Error occured"}, {status:500})
       )
-    
+    return NextResponse.json({message: "Voters Permit sent successfully"}, {status:200})
   } catch (error) {
       console.log(error)
     return NextResponse.json({message: "Something went wrong try again"}, {status:500})
