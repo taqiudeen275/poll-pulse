@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { createElectionPermit, createVoterUser, getElections, getVoters, getVotersPermit, updateElection } from "./action";
+import { createElectionPermit, createVoterUser, getElections, getVoters, getVotersPermit, sendMail, updateElection } from "./action";
 import { RecordModel } from "pocketbase";
 import { Button } from "@/components/ui/button";
 import { Circle, CircleDot, Triangle } from "lucide-react";
@@ -79,17 +79,10 @@ export default function ElectionPage() {
 
         const votersData = formatVoterDataList(voters_permit, voters)
 
-        const respond = await fetch("/api/admin/sendEmail", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ permit: votersData })
-        })
-
-        const data = await respond.json()
-        console.log("STATUS----------------", data.message)
-        if (data.message === "Voters Permit sent successfully") {
+       const respond = await sendMail(votersData)
+ 
+        
+        if (respond === "Succesfully") {
             toast({
                 title: "Voters Permit Sent Successfully",
                 description: "Code has been sent to voters email for voting",
