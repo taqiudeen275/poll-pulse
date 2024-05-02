@@ -107,7 +107,7 @@ export default function Home() {
                         </Link>
                     </Button>
                     <Button>
-                        <Link href={POCKET_BASE_URL+"/_/"} className="lg:col-span-4">Other Admin Dashboard
+                        <Link href="https://poll-pulse.pockethost.io/_/" className="lg:col-span-4">Other Admin Dashboard
                         </Link>
                     </Button>
                 </div>

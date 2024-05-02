@@ -48,7 +48,7 @@ export async function POST(request: Request){
           <h3>Hello ${permit.name}</h3>
           <p>Your Vote Permit Code is <h3>${permit.permit}</h3></p>
           <p>Use this code to vote, it is valid for 24hours</p>
-          <a href="${process.env.SITE_URL}/voter/permit">Click here to vote </a>
+          <a href="https://www.udsmsaelection24.com/voter/permit">Click here to vote </a>
           `,
         });
         
@@ -60,7 +60,7 @@ export async function POST(request: Request){
         Your Vote Permit Code is ${permit.permit}
         Use this code to vote, it is valid for 24hours
         Click here to vote 
-        ${process.env.SITE_URL}/voter/permit
+        https://www.udsmsaelection24.com/voter/permit
        
         `
 
