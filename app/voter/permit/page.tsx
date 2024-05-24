@@ -6,6 +6,8 @@ import {cn} from "@/utils/cn";
     import {Triangle} from "lucide-react";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
+import Image from "next/image"
+
 
 export default function SigninForm() {
 
@@ -49,10 +51,12 @@ export default function SigninForm() {
     };
 
     return (
-        <div className="h-screen flex items-center justify-center">
+        <div className="h-screen flex items-center justify-center flex-col">
+          <Image width={30} alt="" className="w-12 mx-3.5 min-h-fit rounded-full mb-3"
+height={30} src={'/msa.jpg'}/>
             <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
                 <h2 className="font-bold text-3xl text-neutral-800 dark:text-neutral-200">
-                    Welcome to Poll <span className="text-blue-700"> Pulse</span>
+                UDS MSA Eleection with  Poll <span className="text-blue-700"> Pulse</span>
                 </h2>
                 <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
                     Enter your Student ID and voter permit code to start casting your votes
