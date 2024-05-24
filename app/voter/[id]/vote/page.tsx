@@ -20,7 +20,7 @@ export default function VotePage({ params }: { params: { id: string } }){
     return (
         <>
         <div className="flex justify-between items-center px-6 py-2 border-b">
-          <h1 className="text-xl ">Poll <span className="text-blue-600">  Pulse</span></h1>  
+          <h1 className="text-xl ">UDS MSA <span className="text-blue-600">  Election</span></h1>  
          <Button variant="ghost" className="mx-1" onClick={handleLogout}><LogOut/> Logout</Button>
 
         </div>
