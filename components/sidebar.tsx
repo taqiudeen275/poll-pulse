@@ -27,7 +27,7 @@ export const SideBar = () => {
                 {mounted && <SideBarLogo />}
                 <h3 className={classNames("pl-2 font-bold text-2xl min-w-max text-sidebar-foreground",
                     { hidden: toggleCollapse })}>
-                    Poll<span className="text-blue-500">Pulse</span></h3>
+                    UDS MSA <span className="text-blue-600">  Election</span></h3>
                     <Button onClick={invokeToggleCollapse} variant='link' className='float-right sm:hidden ml-auto'><Menu/></Button>
             </div>
             <nav className="flex flex-col gap-2 transition duration-300 ease-in-out">
