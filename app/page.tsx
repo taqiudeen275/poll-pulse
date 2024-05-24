@@ -3,7 +3,7 @@ import Image from "next/image";
 import { TypewriterEffectSmooth } from "@/app/ui/typewriter-effect";
 import { ModeToggle } from "@/app/theme-toggler";
 import Link from "next/link";
-
+import msaPic from "@/public/msa.jpg"
 
 export default function Home() {
   const words = [
@@ -46,9 +46,8 @@ export default function Home() {
       <div className="absolute top-7 right-7">
         <ModeToggle />
       </div>
-      <Image width={80} alt="" className="w-12 mx-3.5 min-h-fit rounded-full mb-3 object-cover object-bottom"
-        height={80} src={'/msa.jpg'} />
       <div className="flex flex-col items-center justify-center h-[40rem]  ">
+      <Image width={160} alt="" className="mx-3.5 rounded-full" height={160} src={msaPic} />
         <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base  ">
           Welcome to PollPulse:
         </p>

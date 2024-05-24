@@ -7,6 +7,7 @@ import {cn} from "@/utils/cn";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import ecPic from "@/public/ec.jpg"
 
 
 export default function SigninForm() {
@@ -51,8 +52,8 @@ export default function SigninForm() {
 
     return (
         <div className="h-screen flex items-center justify-center flex-col">
-            <Image width={40} alt="" className="w-12 mx-3.5 min-h-fit rounded-full mb-3"
-        height={40} src='/ec.jpg' />
+            <Image width={160} alt="" className="rounded-full mb-3"
+        height={160} src={ecPic} />
             <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
                 <h2 className="font-bold text-3xl text-neutral-800 dark:text-neutral-200">
                     UDS MSA Eleection with <span className="text-blue-700"> Pulse</span>
