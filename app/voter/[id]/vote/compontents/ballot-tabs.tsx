@@ -58,12 +58,13 @@ export function BallotTabs({ id }: any) {
   }
 
 
-  const handleCandidateClick = async (candidateId: string, positionId: string) => {
+  const handleCandidateClick = async (candidateId: string, positionId: string, skipped: boolean= false) => {
     const record = await createBallot({
       permit: permit?.id,
       election: election?.id,
-      candidate: candidateId,
-      position: positionId
+      candidate: skipped? "": candidateId,
+      position: positionId,
+      skipped: skipped
     })
     if (record.id) {
       console.log("Record ----------", record)
@@ -130,7 +131,11 @@ const Content = ({ candidate, onCandidateClick, positionId }: any) => {
         <Image src={`${pb.fileBaseURL}${can.id}/${can.photo}`} alt="" width={200} height={150} className="aspect-square object-cover rounded-2xl " />
         <div className="text-lg">{can.full_name}</div>
         <div className="text-sm italic font-thin">{can.slogan}</div>
-        <Button className="bg-be-700 hover:bg-blue-900" onClick={() => onCandidateClick(can.id, positionId)}>Vote <Verified className="ml-2" /></Button>
+        
+        {candidate.length > 1 ? <Button className="bg-be-700 hover:bg-blue-900" onClick={() => onCandidateClick(can.id, positionId)}>Vote <Verified className="ml-2" /></Button>:  <div className="flex gap-2">
+          <Button className="bg-be-700 hover:bg-blue-900" onClick={() => onCandidateClick(can.id, positionId, false)}>Yes <Verified className="ml-2" /></Button>
+          <Button className="bg-be-700 hover:bg-blue-900" onClick={() => onCandidateClick("101010", positionId, true)}>No <Verified className="ml-2" /></Button>
+          </div>}
       </div>))}
       <div >
 
