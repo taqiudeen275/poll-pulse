@@ -40,7 +40,7 @@ export function DataTable<TData, TValue>({ data, columns, size, filter }: DataTa
         initialState: {
             pagination: {
                 "pageIndex": 0,
-                "pageSize": size? size : 5
+                "pageSize": size? size : 100
             }
         },
         onColumnFiltersChange: setColumnFilters,
