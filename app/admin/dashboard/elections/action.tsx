@@ -25,7 +25,9 @@ export async function getVoters(){
      const cookieStore = cookies()
      const authCookie = cookieStore.get('pb_auth')
      pb.client.authStore.loadFromCookie(authCookie?.value as any)
-     const res = await pb.client.collection('voters').getFullList()
+     const res = await pb.client.collection('voters').getFullList({
+      sort: '-created',
+  });
      return res
     } catch (error) {
      console.log(error)
@@ -50,7 +52,9 @@ export async function getVoters(){
      const cookieStore = cookies()
      const authCookie = cookieStore.get('pb_auth')
      pb.client.authStore.loadFromCookie(authCookie?.value as any)
-     const res = await pb.client.collection('voters_permit').getFullList()
+     const res = await pb.client.collection('voters_permit').getFullList({
+      sort: '-created',
+  });
      return res
     } catch (error) {
      console.log(error)

@@ -8,6 +8,9 @@ import {useRouter} from "next/navigation";
 import Link from "next/link";
 import Image from "next/image"
 import msaPic from "@/public/msa.jpg"
+import { RecordModel } from "pocketbase";
+import { getVoters, getVotersPermit, sendMail } from "./action";
+import { useToast } from "@/components/ui/use-toast"
 
 
 export default function SigninForm() {
@@ -18,37 +21,42 @@ export default function SigninForm() {
     const [success, setSuccess] = useState('');
     const [isloading, setIsLoading] = useState(false);
     const route = useRouter();
+    const { toast } = useToast()
 
+    function formatVoterDataList(votersPermitList: RecordModel[], votersList: RecordModel[]) {
+        const formattedList = [];
+        for (const votersPermit of votersPermitList) {
+            const voter = votersList.find(v => v.id === votersPermit.voter);
+            if (voter) {
+                formattedList.push({
+                    name: voter.full_name,
+                    email: voter.email,
+                    phone_number: voter.phone_number,
+                    permit: votersPermit.election_permit_code,
+                });
+            }
+        }
+
+        return formattedList;
+    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
-
-        try {
-            const form = {email, password};
-            const response = await fetch('/api/voters', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(form)
-            });
-            if (!response.ok) {
-                setError('Failed to authenticate user');
-                setIsLoading(false)
-            };
-            const data = await response.json();
-            console.log(data);
-            if (data?.token) {
-                setSuccess('Logged in successfuly')
-                route.push(`/voter/${data.id}/vote`);
-                setIsLoading(false)
-            } else {
-                setError('Failed to authenticate user');
-                setIsLoading(false)
-            }
-        } catch (err) {
-            setError('Failed to authenticate user');
-            setIsLoading(false)
-        }
+        const voters_permit = await getVotersPermit()
+        const voters = await getVoters()
+        
+        const votersData = formatVoterDataList(voters_permit, voters)
+        const myinfo = votersData.find(value => value.name == email)
+       const respond = await sendMail(myinfo!)
+       
+       if (respond === "Succesfully") {
+        toast({
+            title: "SMS Sent Successfully",
+            description: "Code has been sent to your phone number",
+        })
+        setIsLoading(false)
+    }
     };
 
     return (
@@ -57,10 +65,10 @@ export default function SigninForm() {
 height={160} src={msaPic}/>
             <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
                 <h2 className="font-bold text-3xl text-neutral-800 dark:text-neutral-200">
-                UDS MSA Eleection with  Poll <span className="text-blue-700"> Pulse</span>
+                SMS RESEND PAGE
                 </h2>
                 <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-                    Enter your Student ID and voter permit code to start casting your votes
+                    Enter your Student ID and phone number to recievd your SMS
                 </p>
                
                 <form className="my-8" onSubmit={handleSubmit}>
@@ -70,8 +78,8 @@ height={160} src={msaPic}/>
                         <Input id="email" placeholder="username" type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </LabelInputContainer>
                     <LabelInputContainer className="mb-4">
-                        <Label htmlFor="password ">Voters Permit Code</Label>
-                        <Input id="password" placeholder="••••••••" type="password"   value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        <Label htmlFor="password ">Phone</Label>
+                        <Input id="password" placeholder="Phone Number" type="text"   value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </LabelInputContainer>
                     <LabelInputContainer className="my-4">
                         <Label className="text-red-500 ">  {error && <p>{error}</p>}</Label>
@@ -82,13 +90,12 @@ height={160} src={msaPic}/>
                         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
                         type="submit"
                     >   
-                        {isloading? <span className="flex align-center justify-center animate-spin"> <Triangle className="" /> </span> :  <span>Verify</span>}
+                        {isloading? <span className="flex align-center justify-center animate-spin"> <Triangle className="" /> </span> :  <span>SEND SMS</span>}
                         <BottomGradient />
                     </button>
 
                     <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 
-                        <Link href={"/voter/send-sms"} className="text-center text-blue-600">Not Recieved SMS yet? Click here</Link> <br />
                         <Link href={"/"} className="text-center text-blue-600">Go back to the home page</Link>
                 </form>
             </div>
