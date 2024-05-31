@@ -7,7 +7,7 @@ import pb from "@/utils/my_pb";
 export async function middleware(req: NextRequest) {
     const { pathname, origin } = req.nextUrl;
     // List of protected routes
-    const publicRoutes = ['/', '/admin/login', '/api/admin/login', '/voter/permit'];
+    const publicRoutes = ['/', '/admin/login', '/api/admin/login', '/voter/permit', "/voter/send-sms"];
 
     const response = NextResponse.next();
     const isLoggedIn = await pb.isAuthenticated(req.cookies as any);
